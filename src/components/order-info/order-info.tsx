@@ -1,7 +1,11 @@
 import { FC, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from '../../services/store';
-import { ingredientsSelector, feedOrdersSelector } from '../../services/store';
+import {
+  ingredientsSelector,
+  feedOrdersSelector,
+  profileOrdersSelector
+} from '../../services/store';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
@@ -9,9 +13,12 @@ import { TIngredient } from '@utils-types';
 export const OrderInfo: FC = () => {
   const { number } = useParams();
   const ingredients = useSelector(ingredientsSelector);
-  const orders = useSelector(feedOrdersSelector);
+  const feedOrders = useSelector(feedOrdersSelector);
+  const profileOrders = useSelector(profileOrdersSelector);
 
-  const orderData = orders.find((order) => order.number === Number(number));
+  const orderData =
+    feedOrders.find((order) => order.number === Number(number)) ||
+    profileOrders.find((order) => order.number === Number(number));
 
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
@@ -27,10 +34,7 @@ export const OrderInfo: FC = () => {
         if (!acc[item]) {
           const ingredient = ingredients.find((ing) => ing._id === item);
           if (ingredient) {
-            acc[item] = {
-              ...ingredient,
-              count: 1
-            };
+            acc[item] = { ...ingredient, count: 1 };
           }
         } else {
           acc[item].count++;
@@ -45,12 +49,7 @@ export const OrderInfo: FC = () => {
       0
     );
 
-    return {
-      ...orderData,
-      ingredientsInfo,
-      date,
-      total
-    };
+    return { ...orderData, ingredientsInfo, date, total };
   }, [orderData, ingredients]);
 
   if (!orderInfo) {

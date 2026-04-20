@@ -9,13 +9,15 @@ import orderReducer from './slices/order-slice';
 import userReducer from './slices/user-slice';
 import feedReducer from './slices/feed-slice';
 import constructorReducer from './slices/constructor-slice';
+import profileOrdersReducer from './slices/profile-orders-slice';
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   order: orderReducer,
   user: userReducer,
   feed: feedReducer,
-  burgerConstructor: constructorReducer
+  burgerConstructor: constructorReducer,
+  profileOrders: profileOrdersReducer
 });
 
 const loadConstructorState = () => {
@@ -91,5 +93,10 @@ export const constructorBunSelector = (state: RootState) =>
   state.burgerConstructor.bun;
 export const constructorIngredientsSelector = (state: RootState) =>
   state.burgerConstructor.ingredients;
+
+export const profileOrdersSelector = (state: RootState) =>
+  state.profileOrders.orders;
+export const profileOrdersLoadingSelector = (state: RootState) =>
+  state.profileOrders.isLoading;
 
 export default store;
