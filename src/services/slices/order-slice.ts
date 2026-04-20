@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { orderBurgerApi } from '../../utils/burger-api';
+import { orderBurgerApi, getOrderByNumberApi } from '../../utils/burger-api';
 import { TOrder } from '../../utils/types';
 
 interface OrderState {
@@ -8,6 +8,8 @@ interface OrderState {
   orderModalData: TOrder | null;
   isLoading: boolean;
   error: string | null;
+  orderByNumber: TOrder | null;
+  loadingOrderByNumber: boolean;
 }
 
 const initialState: OrderState = {
@@ -15,7 +17,9 @@ const initialState: OrderState = {
   orderRequest: false,
   orderModalData: null,
   isLoading: false,
-  error: null
+  error: null,
+  orderByNumber: null,
+  loadingOrderByNumber: false
 };
 
 export const createOrder = createAsyncThunk<TOrder, string[]>(
@@ -35,6 +39,14 @@ export const createOrder = createAsyncThunk<TOrder, string[]>(
   }
 );
 
+export const getOrderByNumber = createAsyncThunk<TOrder, number>(
+  'order/getByNumber',
+  async (number: number) => {
+    const response = await getOrderByNumberApi(number);
+    return response.orders[0];
+  }
+);
+
 const orderSlice = createSlice({
   name: 'order',
   initialState,
@@ -45,6 +57,8 @@ const orderSlice = createSlice({
       state.orderRequest = false;
       state.isLoading = false;
       state.error = null;
+      state.orderByNumber = null;
+      state.loadingOrderByNumber = false;
     },
     closeOrderModal: (state) => {
       state.orderModalData = null;
@@ -67,6 +81,18 @@ const orderSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message || 'Ошибка создания заказа';
         state.orderRequest = false;
+      })
+      .addCase(getOrderByNumber.pending, (state) => {
+        state.loadingOrderByNumber = true;
+        state.error = null;
+      })
+      .addCase(getOrderByNumber.fulfilled, (state, action) => {
+        state.loadingOrderByNumber = false;
+        state.orderByNumber = action.payload;
+      })
+      .addCase(getOrderByNumber.rejected, (state, action) => {
+        state.loadingOrderByNumber = false;
+        state.error = action.error.message || 'Ошибка получения заказа';
       });
   }
 });
