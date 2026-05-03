@@ -2,31 +2,12 @@ import orderReducer, {
   createOrder,
   getOrderByNumber,
   clearOrder,
-  closeOrderModal
+  closeOrderModal,
+  initialState
 } from '../slices/order-slice';
-import { TOrder } from '@utils-types';
-
-const mockOrder: TOrder = {
-  _id: 'order1',
-  status: 'done',
-  name: 'Тестовый заказ',
-  createdAt: '2025-01-01T00:00:00Z',
-  updatedAt: '2025-01-01T00:00:00Z',
-  number: 12345,
-  ingredients: ['1', '2']
-};
+import { mockOrder } from '../__mocks__/mocks';
 
 describe('order slice', () => {
-  const initialState = {
-    order: null,
-    orderRequest: false,
-    orderModalData: null,
-    isLoading: false,
-    error: null,
-    orderByNumber: null,
-    loadingOrderByNumber: false
-  };
-
   it('createOrder.pending', () => {
     const action = { type: createOrder.pending.type };
     const newState = orderReducer(initialState, action);

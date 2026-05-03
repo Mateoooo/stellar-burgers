@@ -12,7 +12,7 @@ interface OrderState {
   loadingOrderByNumber: boolean;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   order: null,
   orderRequest: false,
   orderModalData: null,

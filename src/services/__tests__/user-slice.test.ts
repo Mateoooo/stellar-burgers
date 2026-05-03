@@ -6,23 +6,12 @@ import userReducer, {
   updateUser,
   authChecked,
   setUser,
-  clearUser
+  clearUser,
+  initialState
 } from '../slices/user-slice';
-import { TUser } from '@utils-types';
-
-const mockUser: TUser = {
-  email: 'test@example.com',
-  name: 'Test User'
-};
+import { mockUser } from '../__mocks__/mocks';
 
 describe('user slice', () => {
-  const initialState = {
-    user: null,
-    isAuthChecked: false,
-    isLoading: false,
-    error: null
-  };
-
   it('authChecked', () => {
     const action = authChecked();
     const newState = userReducer(initialState, action);

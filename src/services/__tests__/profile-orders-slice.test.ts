@@ -1,22 +1,11 @@
 import profileOrdersReducer, {
   fetchProfileOrders,
-  clearProfileOrders
+  clearProfileOrders,
+  initialState
 } from '../slices/profile-orders-slice';
-import { TOrder } from '@utils-types';
-
-const mockOrder: TOrder = {
-  _id: '1',
-  status: 'done',
-  name: 'Заказ',
-  createdAt: '2025-01-01T00:00:00Z',
-  updatedAt: '2025-01-01T00:00:00Z',
-  number: 123,
-  ingredients: ['1', '2']
-};
+import { mockOrder } from '../__mocks__/mocks';
 
 describe('profileOrders slice', () => {
-  const initialState = { orders: [], isLoading: false, error: null };
-
   it('fetchProfileOrders.pending', () => {
     const action = { type: fetchProfileOrders.pending.type };
     const newState = profileOrdersReducer(initialState, action);

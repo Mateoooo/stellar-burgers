@@ -1,25 +1,7 @@
-import feedReducer, { fetchFeeds } from '../slices/feed-slice';
-import { TOrder } from '@utils-types';
-
-const mockOrder: TOrder = {
-  _id: '1',
-  status: 'done',
-  name: 'Заказ',
-  createdAt: '2025-01-01T00:00:00Z',
-  updatedAt: '2025-01-01T00:00:00Z',
-  number: 123,
-  ingredients: ['1', '2']
-};
+import feedReducer, { fetchFeeds, initialState } from '../slices/feed-slice';
+import { mockOrder } from '../__mocks__/mocks';
 
 describe('feed slice', () => {
-  const initialState = {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    isLoading: false,
-    error: null
-  };
-
   it('fetchFeeds.pending', () => {
     const action = { type: fetchFeeds.pending.type };
     const newState = feedReducer(initialState, action);

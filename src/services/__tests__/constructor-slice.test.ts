@@ -4,34 +4,12 @@ import constructorReducer, {
   moveIngredient,
   clearConstructor,
   restoreConstructor,
-  TConstructorIngredient
+  TConstructorIngredient,
+  initialState
 } from '../slices/constructor-slice';
-import { TIngredient } from '@utils-types';
-
-const mockIngredient: TIngredient = {
-  _id: '1',
-  name: 'Тестовый ингредиент',
-  type: 'main',
-  proteins: 10,
-  fat: 5,
-  carbohydrates: 20,
-  calories: 200,
-  price: 100,
-  image: 'test.jpg',
-  image_large: 'test-large.jpg',
-  image_mobile: 'test-mobile.jpg'
-};
-
-const mockBun: TIngredient = {
-  ...mockIngredient,
-  _id: 'bun1',
-  name: 'Тестовая булка',
-  type: 'bun'
-};
+import { mockIngredient, mockBun } from '../__mocks__/mocks';
 
 describe('constructor slice', () => {
-  const initialState = { bun: null, ingredients: [] };
-
   it('addIngredient: добавляет булку', () => {
     const action = addIngredient(mockBun);
     const newState = constructorReducer(initialState, action);

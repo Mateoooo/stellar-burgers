@@ -1,25 +1,10 @@
 import ingredientsReducer, {
-  fetchIngredients
+  fetchIngredients,
+  initialState
 } from '../slices/ingredients-slice';
-import { TIngredient } from '@utils-types';
-
-const mockIngredient: TIngredient = {
-  _id: '1',
-  name: 'Тест',
-  type: 'main',
-  proteins: 10,
-  fat: 5,
-  carbohydrates: 20,
-  calories: 200,
-  price: 100,
-  image: 'test.jpg',
-  image_large: 'test.jpg',
-  image_mobile: 'test.jpg'
-};
+import { mockIngredient } from '../__mocks__/mocks';
 
 describe('ingredients slice', () => {
-  const initialState = { ingredients: [], isLoading: false, error: null };
-
   it('fetchIngredients.pending', () => {
     const action = { type: fetchIngredients.pending.type };
     const newState = ingredientsReducer(initialState, action);
